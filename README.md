@@ -1,2 +1,2 @@
-# REACT_WEBPACK_TEMPLATE
-StarterCode_For_MINIAPPS
+# julio_answers_app
+Ask any question and receive the right answer knowing just one little trick. 
