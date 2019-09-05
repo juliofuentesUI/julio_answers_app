@@ -5,14 +5,48 @@ class App extends React.Component {
     super(props);
     this.state = {
       answer: '',
-      petition: ''
+      petition: '',
+      question: '',
+      hiddenText: false,
+      fakePetition: 'Alfie, please answer the following question :',
+      currentFakeIndex: 0
     };
 
     this.inputHandler = this.inputHandler.bind(this);
   }
 
   inputHandler(event) {
-    console.log(event.target);
+    const { hiddenText, fakePetition, currentFakeIndex, petition } = this.state;
+
+    if (hiddenText === true) {
+      this.setState({
+        petition: petition + fakePetition[currentFakeIndex],
+        currentFakeIndex: currentFakeIndex + 1
+      });
+      return;
+    } 
+
+    console.log('am i running even after true');
+
+    if (event.target.value === '.' && hiddenText === false) {
+      //Change state to hidden text.
+      //Grab existing text or...what..
+      let currentString = petition + fakePetition[currentFakeIndex];
+      event.target.value = currentString;
+      //You have to change the value being viewed right there and then,
+      //then the state gets updated later asynchronously.
+      this.setState({
+        hiddenText: true,
+        petition: currentString,
+        currentFakeIndex: currentFakeIndex + 1
+      });
+    };
+
+    if (hiddenText === false) {
+      this.setState({
+        petition: event.target.value
+      });
+    }
   }
 
   render() {
@@ -20,7 +54,11 @@ class App extends React.Component {
       <div>
         <label htmlFor="petition">Petition Below</label>
         <br/>
-        <input onChange={this.inputHandler} id="petition" type="text"/>
+        <input onChange={this.inputHandler} value={this.state.petition} placeholder="Petition" id="petition" type="text"/>
+        <br/>
+        <label htmlFor="question">Question:</label>
+        <br/>
+        <input id="question" type="text"/>
       </div>
     )
   }
